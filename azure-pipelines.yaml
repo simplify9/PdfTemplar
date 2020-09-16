@@ -1,0 +1,72 @@
+name: $(version)
+
+trigger:
+- master
+
+resources:
+- repo: self
+
+pool:
+  vmImage: 'ubuntu-latest'
+
+variables:
+  - group: ChartMuseum
+  - name: imageName
+    value: pdftemplar
+  - name: version
+    value: $[format('2.0.{0}', counter('2.0', 0))]
+
+steps:
+
+
+- task: Docker@2
+  displayName: Build and push an image to container registry
+  condition: eq(variables['Build.SourceBranch'], 'refs/heads/master')
+  inputs:
+    command: buildAndPush
+    repository: $(imageName)
+    dockerfile: $(Build.SourcesDirectory)/Dockerfile
+    containerRegistry: simplyworksacr
+    tags: |
+      $(version)
+      latest
+
+
+- task: HelmInstaller@0
+  displayName: 'Install Helm 3.2.4'
+  inputs:
+    helmVersion: '3.2.4'
+    checkLatestHelmVersion: false
+    installKubectl: false
+
+- task: HelmDeploy@0
+  displayName: Helm package
+  inputs:
+    command: package
+    chartPath: charts/$(imageName)
+    arguments: --version $(version) --app-version $(version)
+    updatedependency: true
+
+- task: Bash@3
+  displayName: 'Upload to chart museum'
+  inputs:
+    targetType: 'inline'
+    script: |
+      for f in $(Build.ArtifactStagingDirectory)/*.tgz
+      do 
+        echo "Uploading @$f"
+        curl --data-binary "@$f" https://charts.sf9.io/api/charts --user $(CmUser):$(CmPassword)
+      done 
+
+- task: HelmDeploy@0
+  displayName: 'Deploy to playground'
+  inputs:
+    connectionType: 'Kubernetes Service Connection'
+    kubernetesServiceConnection: 'k8s-s9'
+    namespace: '$(imageName)-development'
+    command: 'upgrade'
+    chartName: '$(imageName)'
+    chartVersion: $(version)
+    releaseName: '$(imageName)'
+    overrideValues: 'environment=production,ingress.hosts={pdftemplar.sf9.io}'
+    arguments: --repo https://charts.sf9.io

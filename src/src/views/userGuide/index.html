@@ -1,0 +1,326 @@
+<!DOCTYPE html>
+<html>
+<head>
+<link rel="Stylesheet" type="text/css" href="style.css">
+<title>PDF Template Docs</title>
+<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<style>
+    pre {
+        display: inline;
+    }
+</style>
+</head>
+<body>
+
+<div id="Contents" class="toc"><h1 id="Contents">Contents</a></h1></div>
+<ul>
+<li>
+<a href="PDF Template Docs.html#PDF Template">PDF Template</a>
+
+<ul>
+<li>
+<a href="PDF Template Docs.html#PDF Template-Application Interface">Application Interface</a>
+
+<ul>
+<li>
+<a href="PDF Template Docs.html#PDF Template-Application Interface-Toolbox">Toolbox</a>
+
+<li>
+<a href="PDF Template Docs.html#PDF Template-Application Interface-Drag and Drop box">Drag and Drop box</a>
+
+<li>
+<a href="PDF Template Docs.html#PDF Template-Application Interface-Element Options">Element Options</a>
+
+</ul>
+<li>
+<a href="PDF Template Docs.html#PDF Template-Component Details">Component Details</a>
+
+<ul>
+<li>
+<a href="PDF Template Docs.html#PDF Template-Component Details-Text">Text</a>
+
+<li>
+<a href="PDF Template Docs.html#PDF Template-Component Details-Images">Images</a>
+
+<li>
+<a href="PDF Template Docs.html#PDF Template-Component Details-Codes">Codes</a>
+
+</ul>
+</ul>
+</ul>
+
+<div id="PDF Template"><h1 id="PDF Template" class="header"><a href="#PDF Template">PDF Template</a></h1></div>
+
+
+
+<div id="PDF Template-Application Interface"><h2 id="Application Interface" class="header"><a href="#PDF Template-Application Interface">Application Interface</a></h2></div>
+
+<div id="PDF Template-Application Interface-Toolbox"><h3 id="Toolbox" class="header"><a href="#PDF Template-Application Interface-Toolbox">Toolbox</a></h3></div>
+<p>
+The toolbox includes tools required to make use of the template.
+<em>PDF Preview</em> will pass in sample data to the template and download a PDF, while
+<em>Get Template</em> will copy the template to the clipboard.
+</p>
+
+<p>
+The textbox <em>Sample JSON Data</em> is used to pass in sample data, and the 
+<em>Import JSON Template</em> is used to import a previously edited template.
+</p>
+
+<div id="PDF Template-Application Interface-Drag and Drop box"><h3 id="Drag and Drop box" class="header"><a href="#PDF Template-Application Interface-Drag and Drop box">Drag and Drop box</a></h3></div>
+<p>
+This is where components are dragged from. There are 3 components:
+</p>
+<ul>
+<li>
+Text
+
+<li>
+Image
+
+<li>
+Code
+
+</ul>
+
+<p>
+Each of these components has special functionality and editable attributes,
+discussed in detail in the component section
+</p>
+
+<div id="PDF Template-Application Interface-Element Options"><h3 id="Element Options" class="header"><a href="#PDF Template-Application Interface-Element Options">Element Options</a></h3></div>
+<p>
+This where a component's attributes can be edited. Each component has different
+props to be edited. 
+</p>
+
+<ul>
+<li>
+For text:
+
+<ul>
+<li>
+Text content
+
+<li>
+Color
+
+<li>
+Font size (in points)
+
+<li>
+Font family
+
+<li>
+Bold
+
+<li>
+Italic
+
+<li>
+X and Y
+
+<li>
+Remove element
+
+</ul>
+<li>
+For images:
+
+<ul>
+<li>
+Image source (given as a URL)
+
+<li>
+Browse local image (Max 100KBs)
+
+<li>
+Rotate clockwise/anti-clockwise
+
+<li>
+X and Y
+
+<li>
+Remove element
+
+</ul>
+<li>
+For Codes:
+
+<ul>
+<li>
+Code value
+
+<li>
+Code type
+
+<li>
+X and Y
+
+<li>
+Remove element
+
+</ul>
+</ul>
+
+<div id="PDF Template-Component Details"><h2 id="Component Details" class="header"><a href="#PDF Template-Component Details">Component Details</a></h2></div>
+<div id="PDF Template-Component Details-Text"><h3 id="Text" class="header"><a href="#PDF Template-Component Details-Text">Text</a></h3></div>
+<p>
+Text can be:
+</p>
+<ul>
+<li>
+Literal (shown as is)
+
+<li>
+A variable
+
+<li>
+A function
+
+<li>
+A mix of the above
+
+</ul>
+
+<p>
+Variables are noted as the following:
+<pre>
+{{variable}}
+</pre>
+</p>
+
+<p>
+Note that this does support nested objects, so something like:
+</p>
+<pre>
+{{variableParent.variableChild}}
+</pre>
+<p>
+Would work, and it supports as many nested levels as necessary.
+</p>
+
+<p>NOTE: Variable need spaces on both sides.
+    <pre>{{variable}}text</pre> is not valid while <pre>{{variable}} text</pre> is.
+</p>
+
+<p>
+Functions are noted with similar syntax to excel, with the following:
+</p>
+<pre>
+FOREACH(elementName, arrayName, action)
+IF(condition, actionIfTrue, actionIfFalse)
+</pre>
+
+<pre>
+action
+</pre>
+<p>
+is simply what will be written onto the document.
+</p>
+
+<p>
+So in the case of <em>FOREACH</em>, action would be repeated for the length of the array.
+If <em>elementName</em> is included in the action, it would be substituted with the values from the array.
+<em>arrayName</em> is simply the name of an array that exists in the data model provided.
+</p>
+
+<p>
+Example, where <em>numArray</em> is a list containing the values ["two", "one", "four"]:
+</p>
+<pre>
+FOREACH(elem, numArray, *elem*)
+</pre>
+
+<p>
+Would become:
+</p>
+
+<pre>
+*two* *one* *four*
+</pre>
+
+<p>
+In the case of <em>IF</em>, it would test the condition and if it's true, it would show the ifTrue action,
+and naturally if the condition is false, it would show the ifFalse action. Note that you can use
+variable within the condition and the actions. 
+</p>
+
+<p>
+Operators: &gt;, &lt;, &gt;=, &lt;=, ==, != 
+</p>
+
+<p>
+Example:
+</p>
+
+<pre>
+IF(1 &gt; 2, no, yes)
+</pre>
+
+<p>
+Would become:
+</p>
+
+<pre>
+no
+</pre>
+
+<p>
+If no operator is included, it will just check if the variable exists
+</p>
+
+<p>Example:</p>
+
+<pre>
+    IF(&nbsp;{{ValidVariable}}&nbsp; , yes, no)
+</pre>
+
+<p>Would become:</p>
+
+<pre>
+yes
+</pre>
+
+
+
+<div id="PDF Template-Component Details-Images"><h3 id="Images" class="header"><a href="#PDF Template-Component Details-Images">Images</a></h3></div>
+
+<p>
+Images can be sourced in three different ways:
+</p>
+<ul>
+<li>
+URL from the internet
+
+<ul>
+<li>
+getting the image address and just pasting it
+
+</ul>
+<li>
+Browsed from a local file (discouraged)
+
+<ul>
+<li>
+From the browse button
+
+</ul>
+<li>
+default images stored in our server (a list will be provided)
+
+<ul>
+<li>
+noted as default://<em>imageName.imageExtension</em>
+
+</ul>
+</ul>
+
+<div id="PDF Template-Component Details-Codes"><h3 id="Codes" class="header"><a href="#PDF Template-Component Details-Codes">Codes</a></h3></div>
+
+<p>
+Can be a QR code or a Barcode, picking the format from the UI and following the guidelines
+</p>
+
+</body>
+</html>

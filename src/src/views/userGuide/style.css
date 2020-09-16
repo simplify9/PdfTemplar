@@ -1,0 +1,16 @@
+@import url('https://fonts.googleapis.com/css?family=Questrial|Roboto&display=swap');
+
+body {
+    font-family: Questrial, sans-serif;
+    background: #ECE9E6;  
+    background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  
+    background: linear-gradient(to right, #FFFFFF, #ECE9E6);
+}
+
+p {
+    font-family: Roboto, sans-serif;
+}
+
+a {
+  color: #3f2b96;  
+}

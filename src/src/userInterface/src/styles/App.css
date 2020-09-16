@@ -1,0 +1,370 @@
+@import url('https://fonts.googleapis.com/css?family=Questrial|Roboto&display=swap');
+@import url('https://fonts.googleapis.com/css?family=Cairo&display=swap');
+
+* {
+  margin: 0;
+}
+.App {
+  font-family: Questrial, sans-serif;
+  text-align: center;
+}
+
+.ModelView {
+  position: absolute;
+  top: 10%;
+  z-index: 1;
+  right: 5%;
+  background-color: lightblue;
+  border-radius: 15px;
+  padding: 1em;
+}
+
+.TextPropEditor {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
+
+.FontPicker {
+  width: 5em;
+}
+
+.ColorPicker {
+  width: 2em;
+  height: 1.5em;
+  padding: 0;
+}
+
+.CoordinateInput {
+  grid-auto-columns: 1fr 1fr;
+  width: 100%;
+  margin: auto;
+  grid-template-areas: 
+    "x" "y";
+}
+
+.CoordinateInput > * {
+  width: 30%;
+  display: inline-block;
+}
+
+.CoordinateInputBox > * {
+  width: 30%;
+  display: inline-block;
+}
+
+.rotationDiv {
+  margin-bottom: 0.5em;
+}
+
+.rotationDiv button {
+  border: none;
+  background-size: 1.7em;
+}
+
+.toolBoxText {
+  margin: 0.5em auto;
+}
+
+div.rotationDiv > button > img {
+  width: 2em;
+  height: 2em;
+}
+
+.Sidebar::-webkit-scrollbar {
+  width: 0px;
+  background: transparent;
+}
+
+.Sidebar {
+  min-height: 100%;
+  z-index: 1;
+  max-width: 25%;
+  min-width: 25%;
+  top: 0;
+  display: grid;
+  position: fixed;
+  float: left;
+  grid-template-rows: auto;
+  overflow: scroll;
+  grid-template-areas: 
+    "toolbox" 
+    "draganddrop"
+    "option";
+  border-left: #2c2f33 0.5em solid;
+  max-height: 100%;
+  background: #fafcff;
+}
+
+.CollapseCheckBoxLabel {
+  width: 0.75em;
+  height: 0.75em;
+}
+
+.Canvas {
+  min-height: 100%;
+  float: right;
+  width: 100%;
+  background: #ECE9E6;  
+  background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  
+  background: linear-gradient(to right, #FFFFFF, #ECE9E6);
+}
+
+body {
+  background: #ECE9E6;  
+  background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  
+  background: linear-gradient(to right, #FFFFFF, #ECE9E6);
+}
+
+#PdfCreator {
+  position: relative;
+  border: solid black 1px;
+  margin: 2.5em auto;
+  margin-left: 30%;
+  overflow: hidden;
+  background: #FFFFFF;
+}
+
+.Sidebar.heading h2 {
+  display: block;
+  font-size: 16px;
+  text-align: left;
+  margin-left: 0.5em;
+  color: #001540;
+}
+
+.Sidebar.heading {
+  border-bottom: 1px solid #001540;
+}
+
+.Sidebar > * {
+  border-right: 0.05em solid #2c2f33;
+  border-bottom: 0.05em solid #2c2f33;
+}
+
+
+div .Focused {
+  border: #ECE9E6 1pt solid;
+}
+
+.ImagePdfElement {
+	position: absolute;
+  border: transparent 1pt solid;
+}
+
+.LinePdfElement {
+	position: absolute;
+}
+
+.RectanglePdfElement {
+	position: absolute;
+}
+
+.TextPdfElement {
+	position: absolute;
+  width: auto;
+  box-sizing: border-box;
+  border: transparent 1pt solid;
+  text-align: left;
+  padding: 0;
+}
+
+.TextPdfElement > p {
+  white-space: wrap;
+}
+
+.Toolbox {
+  grid-area: toolbox;
+}
+
+.OptionBox {
+  position: relative;
+  grid-area: option;
+
+}
+
+.DragAndDropBox {
+  /*background-color: #2c2f33;*/
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr 1fr;
+  grid-area: draganddrop;
+  max-height: 20em;
+}
+
+.Draggable {
+  margin: 0.75em 0.75em;
+  /*background-color: #99aab5;*/
+}
+
+.Draggable > img {
+  max-height: 2em;
+  max-width: 2em;
+}
+
+.Draggable > span {
+  display: block;
+  overflow: hidden;
+  font-weight: bold;
+  font-size: 1em;
+  color: #2c2f33;
+}
+
+.OptionBox input[type=text] {
+  margin: auto;
+  min-height: 1.5em;
+  width: 75%;
+  border: none;
+  border: 0.10em solid #ECE9E6;
+  border-bottom: none;
+  border-radius: 5%;
+}
+
+.OptionBox input[type=text].FontSizeInput {
+  width: 10%;
+  border: 0.25em solid #ECE9E6;
+}
+
+.OptionBox input[type=file] {
+  margin: 1em auto;
+  margin-bottom: none;
+  min-height: 1.5em;
+  width: 75%;
+}
+
+.NotificationTray {
+  z-index: 2;
+  position: absolute;
+  top: 1em;
+  right: 1em;
+
+}
+
+.Notification {
+  padding: 0.2em;
+  background: black;
+  text-align: center;
+  border-radius: 20%;
+  height: 5em;
+  width: 8em;
+  margin: 1em 1em;
+}
+
+#DimensionsText {
+  width: 40%;
+  margin: auto;
+}
+
+#DimensionsText > input {
+  width: 20%;
+  margin: 0.5em;
+}
+
+.Notification.Success {
+  background: #add8e6;
+}
+
+.Notification.Error {
+  background: #FFBABA;
+}
+
+.Notification h3 {
+  color: whitesmoke;
+  margin-top: 5%;
+}
+
+.Notification p {
+  margin-top: 5%;
+  color: whitesmoke;
+  vertical-align: middle;
+}
+
+.PreviewPdfButton {
+  margin: 0.5em auto;
+  margin-right: 0.5em;
+  background-color: #ECE9E6; 
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  border-radius: 15px;
+  display: inline-block;
+  font-size: 16px;
+}
+
+.VariableList {
+  position: absolute;
+  width: 50%;
+  max-height: 10em;
+  border: 1px solid #24C6DC;
+  border-bottom: none;
+  border-top: none;
+  z-index: 1;
+  top: 100%;
+  right: 25%;
+  margin: auto;
+  margin-bottom: 1em;
+  overflow: scroll;
+}
+
+.NestedInParent {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+.AutoCompleteInput {
+  display: block;
+  position: relative;
+}
+
+.AutoCompleteInput textarea {
+  width: 90%;
+  height: 6em;
+}
+
+.Autocomplete-item {
+  cursor: pointer;
+  background: #ECE9E6;  
+  background: -webkit-linear-gradient(to right, #FFFFFF, #ECE9E6);  
+  background: linear-gradient(to right, #FFFFFF, #ECE9E6);
+  border-bottom: 1px solid #24C6DC;
+}
+
+.Autocomplete-item.Active {
+  background: #a8c0ff;  /* fallback for old browsers */
+  background: -webkit-linear-gradient(to left, #3f2b96, #a8c0ff);  /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(to left, #3f2b96, #a8c0ff); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  color: #FFFFFF;
+}
+
+.HeaderLine {
+  margin: auto;
+  width: 45%;
+}
+
+.OuterKnob {
+  position: absolute;
+  background-color: #ECE9E6;
+  z-index: 1;
+  width: 3mm;
+  height: 3mm;
+  border: 2pt solid #a8c0ff;
+  border-radius: 25%;
+}
+
+.InnerKnob {
+  width: 1mm;
+  background-color: #a8c0ff;
+  height: 1mm;
+  z-index: 2;
+  margin: 2pt auto;
+  border-radius: 25%;
+  border: 1px solid white;
+}
+
+.shadow {
+  -moz-box-shadow:    3px 3px 5px 6px #ccc;
+  -webkit-box-shadow: 3px 3px 5px 6px #ccc;
+  box-shadow:         3px 3px 5px 6px #ccc;
+}
+
